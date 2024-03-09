@@ -88,6 +88,7 @@ class Boton:
 
 initW = 450
 initH = 360
+superTime = 0
 segment = Segment(initW, initH, white, player_size)
 player = []
 player.append(segment)
@@ -159,11 +160,9 @@ while True:
         orAnterior = orientation
         if iters % 10 == 0:
             orientation = random.randint(1, 4)
-
-
     # Actualizar la posición de la serpiente
         actualizar_posicion_serpiente(orAnterior)
-
+        
         # Limpiar la pantalla
         screen.fill(black)
 
@@ -232,6 +231,16 @@ while True:
                 superCom = random.randint(5, 15)
                 food.color = red
                 food.rect = pygame.Rect(food.x, food.y, 20, 20)
+                superTime = 0
+
+            if superPoints:
+                superTime += 1
+            
+            if superPoints and superTime > 50:
+                superPoints = False
+                food = generarComida()
+
+            
 
 
         # Verificar colisión entre la cabeza de la serpiente y la comida
@@ -281,6 +290,7 @@ while True:
                 elif orientation == 1:
                     player[0].y -= player_size
                 
+           
             food.draw()
             
 
@@ -412,7 +422,7 @@ while True:
             
 
                 # Controlar la velocidad del bucle
-            pygame.time.Clock().tick(10)
+            pygame.time.Clock().tick(20)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
